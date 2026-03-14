@@ -51,6 +51,10 @@ If you want a dedicated tap, create `PawaOx4th/homebrew-tools` and copy `Formula
 
 ## Releasing with Homebrew
 
+Automatic workflow:
+- Pushing a tag like `v0.1.0` triggers `.github/workflows/formula-pr-on-tag.yml`.
+- The workflow updates `Formula/gsb.rb` and opens a PR to `main` automatically.
+
 1. Create and push release tag:
 
 ```sh
