@@ -41,12 +41,20 @@ make install PREFIX="$HOME/.local"
 
 ## Homebrew (Tap)
 
-Install via tap (HEAD):
+Install via tap:
 
 ```sh
 brew tap PawaOx4th/gsb https://github.com/PawaOx4th/gsb
+brew install gsb
+```
+
+Install HEAD explicitly:
+
+```sh
 brew install --HEAD PawaOx4th/gsb/gsb
 ```
+
+Note: `brew install PawaOx4th/gsb` is not supported by Homebrew for formula installation.
 
 If you want a separate tap repository, create `PawaOx4th/homebrew-tools` and copy `Formula/gsb.rb` into that repository.
 
