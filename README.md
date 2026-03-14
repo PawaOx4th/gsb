@@ -41,29 +41,28 @@ make install PREFIX="$HOME/.local"
 
 ## Homebrew (Tap)
 
-Create a tap repository, for example `yourname/homebrew-tools`, and add this formula file as `Formula/gsb.rb`.
-
-Install command for users:
+Install from this repository directly (HEAD):
 
 ```sh
-brew tap yourname/tools
-brew install gsb
+brew install --HEAD https://raw.githubusercontent.com/PawaOx4th/gsb/main/Formula/gsb.rb
 ```
+
+If you want a dedicated tap, create `PawaOx4th/homebrew-tools` and copy `Formula/gsb.rb` into that repository.
 
 ## Releasing with Homebrew
 
 1. Create a git tag (example: `v0.1.0`) and GitHub release.
 2. Download release tarball URL:
-   `https://github.com/<owner>/<repo>/archive/refs/tags/v0.1.0.tar.gz`
+   `https://github.com/PawaOx4th/gsb/archive/refs/tags/v0.1.0.tar.gz`
 3. Calculate sha256:
 
 ```sh
-curl -L -o gsb-v0.1.0.tar.gz https://github.com/<owner>/<repo>/archive/refs/tags/v0.1.0.tar.gz
+curl -L -o gsb-v0.1.0.tar.gz https://github.com/PawaOx4th/gsb/archive/refs/tags/v0.1.0.tar.gz
 shasum -a 256 gsb-v0.1.0.tar.gz
 ```
 
-4. Update `url`, `sha256`, and `version` in `Formula/gsb.rb`.
-5. Commit formula update in your tap repository.
+4. In `Formula/gsb.rb`, replace `head` with `url` and `sha256` for that release.
+5. Commit formula update in your tap repository (or this repository if installing via raw URL).
 
 ## License
 
