@@ -4,7 +4,9 @@
 
 - Uses `fzf` when available.
 - Falls back to numbered selection when `fzf` is not installed.
-- Can fetch remote in blocking mode or background mode.
+- Default is no fetch (uses cached remote refs only).
+- If cache is empty, gsb does a one-time fetch automatically and continues.
+- Can fetch remote in blocking mode or background mode when requested.
 
 ## Requirements
 

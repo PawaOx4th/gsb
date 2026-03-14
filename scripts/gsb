@@ -13,7 +13,7 @@ Options:
   -h, --help            Show this help message
   -v, --version         Show version
   -f, --fetch           Fetch remote first (blocking)
-  -a, --auto-fetch      Enable background auto-fetch (default)
+  -a, --auto-fetch      Enable background auto-fetch
       --no-auto-fetch   Disable background auto-fetch
       --bg-status       Show a short background fetch status message (default)
       --no-bg-status    Hide background fetch status message
@@ -48,7 +48,7 @@ fi
 
 remote="origin"
 should_fetch=0
-should_auto_fetch=1
+should_auto_fetch=0
 show_bg_fetch_status=1
 
 for arg in "$@"; do
@@ -109,9 +109,17 @@ git for-each-ref --format='%(refname:short)' "refs/remotes/$remote" \
   | sort -u >"$tmp_remote"
 
 if [ ! -s "$tmp_remote" ]; then
-  printf 'no cached remote branches found for: %s\n' "$remote" >&2
-  printf 'try: gsb %s --fetch\n' "$remote" >&2
-  exit 1
+  git fetch "$remote" --prune >/dev/null 2>&1 || true
+
+  git for-each-ref --format='%(refname:short)' "refs/remotes/$remote" \
+    | grep -v "^$remote/HEAD$" \
+    | sed "s#^$remote/##" \
+    | sort -u >"$tmp_remote"
+fi
+
+if [ ! -s "$tmp_remote" ]; then
+  printf 'no remote branches found for: %s\n' "$remote" >&2
+  exit 0
 fi
 
 git for-each-ref --format='%(refname:short)' refs/heads | sort -u >"$tmp_local"
