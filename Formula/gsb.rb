@@ -1,10 +1,11 @@
 class Gsb < Formula
   desc "Pick a remote branch and switch to it quickly"
   homepage "https://github.com/PawaOx4th/gsb"
-  url "https://github.com/PawaOx4th/gsb/archive/refs/tags/v0.0.1-beta.tar.gz"
-  sha256 "9ac5727bae0942bdec982706a14d790241ba359d47f7f739384c7f4c7afa53c7"
+  url "https://github.com/PawaOx4th/gsb/archive/refs/tags/v0.0.2.tar.gz"
+  sha256 "28c53bcb9517cd79293e69f139efcd61e15310cc906836f862077a29cd85e64a"
+  head "https://github.com/PawaOx4th/gsb.git", branch: "main"
   license "MIT"
-  version "0.0.1-beta"
+  version "0.0.2"
 
   depends_on "git"
 
