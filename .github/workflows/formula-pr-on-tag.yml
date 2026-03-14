@@ -5,6 +5,10 @@ on:
     tags:
       - "v*"
 
+concurrency:
+  group: formula-pr-${{ github.ref_name }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pull-requests: write
@@ -26,6 +30,7 @@ jobs:
           tools/update-formula-from-tag.sh "$TAG"
 
       - name: Create pull request
+        id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -40,3 +45,12 @@ jobs:
           base: main
           add-paths: |
             Formula/gsb.rb
+
+      - name: Enable auto-merge
+        if: steps.cpr.outputs.pull-request-number != ''
+        continue-on-error: true
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
