@@ -51,18 +51,33 @@ If you want a dedicated tap, create `PawaOx4th/homebrew-tools` and copy `Formula
 
 ## Releasing with Homebrew
 
-1. Create a git tag (example: `v0.1.0`) and GitHub release.
-2. Download release tarball URL:
-   `https://github.com/PawaOx4th/gsb/archive/refs/tags/v0.1.0.tar.gz`
-3. Calculate sha256:
+1. Create and push release tag:
 
 ```sh
-curl -L -o gsb-v0.1.0.tar.gz https://github.com/PawaOx4th/gsb/archive/refs/tags/v0.1.0.tar.gz
-shasum -a 256 gsb-v0.1.0.tar.gz
+make release-tag TAG=v0.1.0
+git push origin main --tags
 ```
 
-4. In `Formula/gsb.rb`, replace `head` with `url` and `sha256` for that release.
-5. Commit formula update in your tap repository (or this repository if installing via raw URL).
+2. Generate stable formula from that tag (automatic url + sha256):
+
+```sh
+make formula-from-tag TAG=v0.1.0
+```
+
+3. Commit formula change and push:
+
+```sh
+git add Formula/gsb.rb
+git commit -m "release: v0.1.0 formula"
+git push origin main
+```
+
+4. Create GitHub release for the same tag.
+
+Note:
+- Script location: `tools/update-formula-from-tag.sh`
+- The script writes a stable formula file to `Formula/gsb.rb`.
+- If you want to keep both stable and head formula, put one copy in a tap repository.
 
 ## License
 
