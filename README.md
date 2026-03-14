@@ -41,13 +41,14 @@ make install PREFIX="$HOME/.local"
 
 ## Homebrew (Tap)
 
-Install from this repository directly (HEAD):
+Install via tap (HEAD):
 
 ```sh
-brew install --HEAD https://raw.githubusercontent.com/PawaOx4th/gsb/main/Formula/gsb.rb
+brew tap PawaOx4th/gsb https://github.com/PawaOx4th/gsb
+brew install --HEAD PawaOx4th/gsb/gsb
 ```
 
-If you want a dedicated tap, create `PawaOx4th/homebrew-tools` and copy `Formula/gsb.rb` into that repository.
+If you want a separate tap repository, create `PawaOx4th/homebrew-tools` and copy `Formula/gsb.rb` into that repository.
 
 ## Releasing with Homebrew
 
@@ -56,6 +57,7 @@ Automatic workflow:
 - Pushing a tag like `v0.1.0` triggers `.github/workflows/formula-pr-on-tag.yml`.
 - The workflow updates `Formula/gsb.rb` and opens a PR to `main` automatically.
 - It also tries to enable PR auto-merge (if repository setting allows it).
+- Generated formula keeps `head` so `brew install --HEAD PawaOx4th/gsb/gsb` continues to work.
 
 1. Create and push release tag:
 
@@ -87,7 +89,7 @@ git push origin main
 Note:
 
 - Script location: `tools/update-formula-from-tag.sh`
-- The script writes a stable formula file to `Formula/gsb.rb`.
+- The script writes stable `url`+`sha256` and preserves `head` in `Formula/gsb.rb`.
 - If you want to keep both stable and head formula, put one copy in a tap repository.
 
 ## License

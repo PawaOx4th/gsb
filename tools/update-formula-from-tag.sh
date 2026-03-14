@@ -48,6 +48,7 @@ class Gsb < Formula
   homepage "https://github.com/${OWNER}/${REPO}"
   url "${url}"
   sha256 "${sha256}"
+  head "https://github.com/${OWNER}/${REPO}.git", branch: "main"
   license "MIT"
   version "${version}"
 
