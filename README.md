@@ -6,6 +6,7 @@
 - Falls back to numbered selection when `fzf` is not installed.
 - Default is no fetch (uses cached remote refs only).
 - If cache is empty, gsb does a one-time fetch automatically and continues.
+- If no remote branches are available, gsb falls back to local branches automatically.
 - Can fetch remote in blocking mode or background mode when requested.
 
 ## Requirements
