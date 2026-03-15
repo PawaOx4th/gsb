@@ -105,6 +105,7 @@ trap 'rm -f "$tmp_remote" "$tmp_local" "$tmp_display"' EXIT HUP INT TERM
 
 selection_source="$tmp_remote"
 switch_mode="remote"
+current_branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
 
 git for-each-ref --format='%(refname:short)' refs/heads | sort -u >"$tmp_local"
 
@@ -127,7 +128,11 @@ if [ ! -s "$tmp_remote" ]; then
     switch_mode="local"
     selection_source="$tmp_local"
     while IFS= read -r branch; do
-      printf '%s\t[local]: %s\n' "$branch" "$branch"
+      marker=" "
+      if [ "$branch" = "$current_branch" ]; then
+        marker="➡️"
+      fi
+      printf '%s\t[%s][local]: %s\n' "$branch" "$marker" "$branch"
     done <"$tmp_local" >"$tmp_display"
   else
     printf 'no branches found in this repository\n' >&2
@@ -135,10 +140,15 @@ if [ ! -s "$tmp_remote" ]; then
   fi
 else
   while IFS= read -r branch; do
+    marker=" "
+    if [ "$branch" = "$current_branch" ]; then
+      marker="➞"
+    fi
+
     if grep -Fxq "$branch" "$tmp_local"; then
-      printf '%s\t[All]: %s\n' "$branch" "$branch"
+      printf '%s\t[%s][All]: %s\n' "$branch" "$marker" "$branch"
     else
-      printf '%s\t[remote]: %s\n' "$branch" "$branch"
+      printf '%s\t[%s][remote]: %s\n' "$branch" "$marker" "$branch"
     fi
   done <"$tmp_remote" >"$tmp_display"
 fi
